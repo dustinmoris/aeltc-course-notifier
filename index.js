@@ -14,25 +14,22 @@ const today = new Date().toLocaleDateString(
 async function sendEmail(mailServer, sender, recipients, body) {
     const topic = pubsub.topic('emails');
 
-    const messageObject = {
-        data: {
-            domain: mailServer,
-            sender: sender,
-            recipients: recipients,
-            cc: [],
-            bcc: [],
-            subject: 'Available Tennis Courses (' + today + ')',
-            plaintext: body,
-            html: ""
-        },
-        attributes: {
-            encoding: 'json-utf8'
-        }
+    const data = {
+        domain: mailServer,
+        sender: sender,
+        recipients: recipients,
+        cc: [],
+        bcc: [],
+        subject: 'Available Tennis Courses (' + today + ')',
+        plaintext: body,
+        html: ""
     };
-    const messageBuffer = Buffer.from(JSON.stringify(messageObject), 'utf8');
+    const buff = Buffer.from(JSON.stringify(data), 'utf8');
 
     try {
-        await topic.publish(messageBuffer);
+        await topic.publish(buff, {
+            encoding: 'json-utf8'
+        });
         console.log('Email successfully queued.');
     } catch (err) {
         console.error(err);
