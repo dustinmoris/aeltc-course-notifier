@@ -1,0 +1,9 @@
+.gcloudignore
+.git
+.gitignore
+.github
+deploy.sh
+README.md
+LICENSE
+deploy.sh
+node_modules

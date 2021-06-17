@@ -1,0 +1,23 @@
+{
+  "name": "aeltc-course-notifier",
+  "version": "1.0.0",
+  "description": "Web scraper to notify someone about available tennis courses.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dustinmoris/aeltc-course-notifier.git"
+  },
+  "author": "Dustin Moris Gorski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dustinmoris/aeltc-course-notifier/issues"
+  },
+  "homepage": "https://github.com/dustinmoris/aeltc-course-notifier#readme",
+  "dependencies": {
+    "@google-cloud/pubsub": "^2.14.0",
+    "puppeteer": "^10.0.0"
+  }
+}
