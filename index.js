@@ -104,7 +104,7 @@ async function run(baseURL, headless, maxTries, excludeLadies, mailServer, sende
 }
 
 function createEmailBody(baseURL, courses) {
-    let body = 'Courses available as of ' + today + ':\n\n';
+    let body = 'Courses available as of ' + today + ':\n';
     for (const course of courses) {
         body += '\n---\n' + course.title + '\n';
         body += 'Date: ' + course.date + '\n';
