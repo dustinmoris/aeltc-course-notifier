@@ -1,8 +1,10 @@
 const puppeteer = require('puppeteer');
 const {PubSub} = require('@google-cloud/pubsub');
 
+// Need only a single instance of pubsub:
 const pubsub = new PubSub();
 
+// Good enough to get a timestamp at the start of the script:
 const today = new Date().toLocaleDateString(
     'en-GB', {
         weekday: 'short',
@@ -11,9 +13,10 @@ const today = new Date().toLocaleDateString(
         day: '2-digit'
     });
 
+// Queues a new message on the 'emails' topic with the email
+// message to be sent, by the specified sender and mail server
 async function sendEmail(mailServer, sender, recipients, body) {
     const topic = pubsub.topic('emails');
-
     const data = {
         domain: mailServer,
         sender: sender,
@@ -37,8 +40,8 @@ async function sendEmail(mailServer, sender, recipients, body) {
     }
 }
 
+// main function which does all the scraping and then sends an email
 async function run(baseURL, headless, maxTries, excludeLadies, mailServer, sender, recipients) {
-
     const browser = await puppeteer.launch({
         headless: headless
     });
@@ -99,10 +102,10 @@ async function run(baseURL, headless, maxTries, excludeLadies, mailServer, sende
     await browser.close();
 
     let body = createEmailBody(baseURL, availableCourses);
-
     await sendEmail(mailServer, sender, recipients, body);
 }
 
+// Composes a plaintext email body with all available courses.
 function createEmailBody(baseURL, courses) {
     let body = 'Courses available as of ' + today + ':\n';
     for (const course of courses) {
@@ -115,15 +118,7 @@ function createEmailBody(baseURL, courses) {
     return body;
 }
 
-// run(
-//     'https://communitytennis.aeltc.com',
-//     true,
-//     5,
-//     true,
-//     'mail-server',
-//     'sender@example.org',
-//     [ 'your-email@example.org' ]);
-
+// Google Cloud Function entry point:
 exports.notifierPubSub = async (message, context) => {
     const msg = message.data
         ? Buffer.from(message.data, 'base64').toString()
@@ -143,13 +138,17 @@ exports.notifierPubSub = async (message, context) => {
             params.recipients
         )
     } else {
-        await run(
-            'https://communitytennis.aeltc.com', // baseURL
-            true,                                // headless
-            5,                                   // maxTries
-            true,                                // excludeLadies
-            'mail-server',                       // mailServer
-            'sender@example.org',                // sender
-            [ 'your-email@example.org' ],);      // recipients
+        console.log('Cannot process empty message data.')
     }
 }
+
+// Uncomment this for local debug testing:
+// ---------------------------------------
+// run(
+//     'https://communitytennis.aeltc.com',
+//     true,
+//     5,
+//     true,
+//     'mail-server',
+//     'sender@example.org',
+//     [ 'your-email@example.org' ]);
