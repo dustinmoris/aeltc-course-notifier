@@ -107,7 +107,9 @@ async function run(baseURL, headless, maxTries, excludeLadies, mailServer, sende
 
 // Composes a plaintext email body with all available courses.
 function createEmailBody(baseURL, courses) {
-    let body = 'Courses available as of ' + today + ':\n';
+    let body = 'IMPORTANT: If you want to be removed from the email list please send me a short message to dustinmoris@gmail.com.\n\n';
+    body += 'Courses available as of ' + today + ':\n';
+
     for (const course of courses) {
         body += '\n---\n' + course.title + '\n';
         body += 'Date: ' + course.date + '\n';

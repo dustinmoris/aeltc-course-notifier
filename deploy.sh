@@ -1,1 +1,1 @@
-gcloud functions deploy AELTC-Course-Notifier --runtime nodejs14 --entry-point notifierPubSub --trigger-topic aeltc-course-notifier --region europe-west2 --project dusted-codes --memory 1024MB
+gcloud functions deploy AELTC-Course-Notifier --runtime nodejs14 --entry-point notifierPubSub --trigger-topic aeltc-course-notifier --region europe-west2 --project dusted-codes --memory 1024MB --timeout 180s
