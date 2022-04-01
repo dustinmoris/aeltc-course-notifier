@@ -146,8 +146,11 @@ exports.notifierPubSub = async (message, context) => {
 
 // Uncomment this for local debug testing:
 // ---------------------------------------
+// Run from console: `node index.js`
+// OR debug from VS Code
+
 // run(
-//     'https://communitytennis.aeltc.com',
+//     'https://raynespark.communitysport.aeltc.com',
 //     true,
 //     5,
 //     true,
